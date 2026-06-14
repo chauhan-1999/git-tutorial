@@ -1,0 +1,91 @@
+----------------- docker --------------
+Remove-Item -Recurse -Force .\.git
+-----------------------------------
+docker desktop start/stop --> while you start k8s
+
+docker login -> dockerHub
+docker build -t <img> destPath --> create img using dockerfile to destPath
+docker image tag <old-img>:latest username/<new-img>:latest -> to tag img with username
+docker push username/<new-img>:latest -> push img on docker hub
+docker run <img>
+docker run -d -p 8080:80 <img>
+------------------- kubernates -------------------
+Set-Alias -Name k -Value kubectl [k = kubectl]
+  k port-forward svc/api-gateway 9000:80 //likedin
+   ./mvnw clean package -DskipTests             //to update the img and push on docker registry using jib
+   k port-forward service/connection-db 7687:7687 7474:7474     //to access connection-db
+ k get ns
+ k delete ns <namespace> //to delete all the resources 
+ k describe pod <pod_name> -n <ns>
+ k logs <pod> -n <ns>
+ k get all -n <ns>
+ k create/apply/delete -f <resource.yml>
+ k port-forward svc/notes-app-service -n notes-app 8000:8000
+ 
+ k get pods -n mysql --watch
+ k exec -it mysql-statefulset-1 -n mysql --bash
+ 
+ 
+ //load-generator to generate the loads on pods in order to scale [hpa or vpa]
+ 
+ kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://apache-service.apache.svc.cluster.local; done"
+ 
+ //to delete load-generator
+ k delete deployment load-generator 
+ 
+ 
+ //dashboard
+ 
+ k proxy
+ //access dashboard
+ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+ 
+ ----------------- helm --------------
+ To run any app using helm -> [fast deployment using k8-helm]
+ //create a helm of your app
+ helm create my_app-helm
+ //keep changes in chart and values.yml according to yours req
+ repository -> img
+ tag -> version[latest]
+ port-> your app port
+ targetPort ->container Port && also add this in service.yml => targetPort: {{ .Values.service.port }}
+ 
+ //pkg your helm after changes done
+ helm pkg my_app-helm
+ 
+ //now install it
+ helm install my_app my_app-helm -n my-app --create-namespace
+ 
+  
+ 
+ //to uninstall it
+ helm uninstall my_app -n my-app  
+ 
+ ---------- direct from artifactHub ---------
+ helm repo add bitnami https://charts.bitnami.com/bitnami  [only once]
+ 
+ //search for your repo and go to install and then 
+ helm install my-mongodb bitnami/mongodb --version 18.6.0
+ 
+ //for nginx
+ helm install my-nginx bitnami/nginx --version 22.5.0
+ or this 
+ helm install nginx bitnami/nginx -n nginx --create-namespace
+ 
+ ----------------- projects -------------
+ full stack chatapp
+ 
+ docker build -t chauhan0799/chatapp-backend:latest .
+ docker push chauhan0799/chatapp-backend:latest 
+
+ -------------- prometheus and grafana --------
+  helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set grafana.service.nodePort=31000 --set prometheus.service.type=NodePort --set grafana.service.type=NodePort
+  
+   //run prometheus on your local
+   k port-forward svc/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring
+   
+   //run grafana 
+   k port-forward svc/prometheus-stack-grafana 30000:80 -n monitoring
+   
+   //Grafana --> to get admin password and decode it into base64 online
+   k get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}"
