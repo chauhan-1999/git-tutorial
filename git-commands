@@ -1,0 +1,46 @@
+Workflow of Git/Github
+
+GitHub --> clone --> Changes--> add --> commit --> Push
+
+clone --> through intellij/vscode
+changes --> do changes in the code 
+git status // to check the changes or status
+git add . //adding all the files
+git commit -m "msg"
+git push -u origin main [step1]
+or simply git push step 1 is done previously
+
+
+// to push any new project from your code editor to github
+
+git init
+git remote add origin <https link>
+git remote -v [to verify github user and profile]
+git status // to check the changes or status
+git add . //adding all the files
+git commit -m "msg"
+git push -u origin main [step1]
+or simply git push step 1 is done previously
+
+git reset --soft HEAD~1 //to undo commit from git [local machine]
+git restore --staged file/files --> to remove file/files from staging area [if u did git add .]
+
+
+------------------------ update the code from another computer/folder/dir ------------
+
+//Get a repo for the first time
+git clone <url>
+
+//go to your project folder where .git already there
+
+//to check origin
+git remote show origin
+
+//Download latest updates from GitHub
+git pull origin main
+
+//Save local changes to history
+"git commit -m ""message"""
+
+//Upload local changes to GitHub
+git push origin main
