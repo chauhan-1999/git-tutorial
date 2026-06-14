@@ -1,0 +1,39 @@
+
+----------------- commands ------------------
+windows+shift+s -> to crop and save the image of any pdf or screen
+kafka-storage.bat format -t qZugPrAQTQywWJRjpWFMCQ -c config/server.properties
+kafka-storage.bat format --config config/server.properties --cluster-id qZugPrAQTQywWJRjpWFMCQ --ignore-formatted
+//20 project idea
+https://www.javaguides.net/2018/10/free-open-source-projects-using-spring-boot.html
+
+//study.lol/youtubeLink -> to create 
+-------------- kafka -------------------
+//go to kafak dir->c/softwares/kafka --> cd ../../softwares/kafka
+
+//to run kafka server
+kafka-server-start.bat config/server.properties
+
+//to run kafkabat-ui [localhost:8080]
+java -Dspring.config.additional-location=application-local.yml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar api-v1.4.2.jar
+
+//create a topic
+kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092
+
+//start a producer 
+kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092
+
+//start a consumer 
+kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
+
+List all topics:
+
+kafka-topics.bat --list --bootstrap-server localhost:9092
+Get details about a topic:
+
+kafka-topics.bat --describe --topic test-topic --bootstrap-server localhost:9092
+Delete a topic:
+
+kafka-topics.bat --delete --topic test-topic --bootstrap-server localhost:9092
+Check consumer groups:
+
+kafka-consumer-groups.bat --list --bootstrap-server localhost:9092
